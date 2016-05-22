@@ -2,7 +2,9 @@ FROM debian:8
 MAINTAINER Eduardo Silva <zedudu@gmail.com>
 MAINTAINER Robby Ranshous <rranshous@gmail.com>
 
-RUN apt-get update && apt-get install -y  \
+RUN apt-get update
+
+RUN apt-get install -y  \
     autoconf \
     automake \
     bzip2 \
@@ -64,18 +66,13 @@ RUN cd /opt && \
     rm -rf /opt/kaldi-gstreamer-server/.git/ && \
     rm -rf /opt/kaldi-gstreamer-server/test/
 
-RUN apt-get update
-RUN apt-get install -y wget
-RUN apt-get install -y python-pip
-RUN pip install --user ws4py==0.3.2
-
 RUN mkdir /opt/models
 RUN wget https://phon.ioc.ee/~tanela/tedlium_nnet_ms_sp_online.tgz -P /opt/models/
 RUN cd /opt/models && tar -zxvf tedlium_nnet_ms_sp_online.tgz
 RUN rm /opt/models/tedlium_nnet_ms_sp_online.tgz
 RUN wget https://raw.githubusercontent.com/alumae/kaldi-gstreamer-server/master/sample_english_nnet2.yaml -P /opt/models/
 RUN find /opt/models/ -type f | xargs sed -i 's:test:/opt:g'
-sed -i 's:full-post-processor:#full-post-processor:g' /opt/models/sample_english_nnet2.yaml
+RUN sed -i 's:full-post-processor:#full-post-processor:g' /opt/models/sample_english_nnet2.yaml
 
 COPY bin/client.py bin/start.sh bin/stop.sh /opt/
 
