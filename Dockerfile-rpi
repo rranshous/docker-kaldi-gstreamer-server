@@ -1,4 +1,4 @@
-FROM debian:8
+FROM docker pull ioft/armhf-debian
 MAINTAINER Eduardo Silva <zedudu@gmail.com>
 MAINTAINER Robby Ranshous <rranshous@gmail.com>
 
@@ -86,3 +86,4 @@ RUN chmod +x /opt/start.sh && \
 WORKDIR /opt
 
 CMD /opt/start.sh -y /opt/models/sample_english_nnet2.yaml && tail -f /opt/*.log
+
